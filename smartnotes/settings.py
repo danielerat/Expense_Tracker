@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # MY apps
     'expenses',
     'users',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

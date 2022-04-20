@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
 
     <div class="row mb-3">
@@ -11,7 +12,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Wallet Ballance
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw 40,000</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw {{ wallet.balance|floatformat:0|intcomma }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-success mr-2"><i class="fa fa-arrow-up"></i>
                                                     3.48%</span>
