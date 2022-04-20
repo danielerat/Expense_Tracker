@@ -1,8 +1,12 @@
+import datetime
 import uuid
 from decimal import Decimal
 
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils.timezone import now
+from django.db.models import Sum
+
 from users.models import Profile
 
 
@@ -25,6 +29,22 @@ class Wallet(models.Model):
     def __str__(self):
         return self.owner.username
 
+    # @property
+    # def get_latest_topup(self):
+    #     transaction = TopUpTransaction.obje
+    #     return
+    @property
+    def monthly_expenses(self):
+        month = now().month
+        expenses = self.owner.expense_set.filter(date__month=month).aggregate(Sum('amount'))
+        return expenses['amount__sum']
+
+    @property
+    def get_all_expenses(self):
+        month = now().month
+        expenses = self.owner.expense_set.all().aggregate(Sum('amount'))
+        return expenses['amount__sum']
+
 
 class Expense(models.Model):
     EXPENSE_TYPE = [
@@ -45,6 +65,7 @@ class Expense(models.Model):
     amount = models.DecimalField(decimal_places=3, max_digits=15, null=False, blank=False,
                                  validators=[MinValueValidator(Decimal('0.01'))])
     expense_type = models.TextField(choices=EXPENSE_TYPE, null=False, blank=False)
+    date = models.DateField(default=now, null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
