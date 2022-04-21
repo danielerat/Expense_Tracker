@@ -2,7 +2,7 @@
 <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'expenses:home' %}">
             <div class="sidebar-brand-icon">
                 <img src="{% static 'img/logo/logo2.png' %}">
             </div>
@@ -10,7 +10,7 @@
         </a>
         <hr class="sidebar-divider my-0">
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">
+            <a class="nav-link" href="{% url 'expenses:home' %}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -47,7 +47,7 @@
             <div id="collapseForm" class="collapse" aria-labelledby="headingForm" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Pending Expenses</h6>
-                    <a class="collapse-item" href="form_basics.html">All Pending Expenses</a>
+                    <a class="collapse-item" href="{% url 'expenses:pending_expense' %}">All Pending Expenses</a>
                     <a class="collapse-item" href="form_advanceds.html">Schedule Expense</a>
                 </div>
             </div>

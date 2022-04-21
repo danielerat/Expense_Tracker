@@ -12,6 +12,7 @@
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/ruang-admin.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 </head>
 <body id="page-top">
 
@@ -20,7 +21,7 @@
     {% include 'navigation.html' %}
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Blank Page</h1>
+                    <h1 class="h3 mb-0 text-gray-800">{% if page_name %} {{ page_name }} {% else %} Bank Page{% endif %}</h1>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="./">Home</a></li>
                         <li class="breadcrumb-item">Pages</li>
@@ -36,6 +37,10 @@
 
 
     {% include 'footer.html' %}
+
+{% block footer_links %}
+    <h2>Hello world </h2>
+{% endblock footer_links %}
 
 </body>
 </html>

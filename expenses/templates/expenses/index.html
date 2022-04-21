@@ -2,7 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-
+    {% block page_title %} Dashboard  {% endblock page_title %}
     <div class="row mb-3">
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -175,7 +175,6 @@
                             </div>
                             <div class="small text-gray-500 message-time font-weight-bold">
                                 To Do On: {{ pending.date_expected }}
-
                                 <span class="badge badge-{{ pending.priority }}"><i class="fas fa-flag"></i> </span>
                             </div>
                         </a>
