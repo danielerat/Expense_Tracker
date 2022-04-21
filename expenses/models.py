@@ -40,10 +40,39 @@ class Wallet(models.Model):
         return expenses['amount__sum']
 
     @property
+    def get_allowed_Expense(self):
+        expenses = self.owner.expense_set.all().aggregate(Sum('amount'))
+        return expenses['amount__sum'] @ property
+
+    @property
     def get_all_expenses(self):
         month = now().month
         expenses = self.owner.expense_set.all().aggregate(Sum('amount'))
         return expenses['amount__sum']
+
+    @property
+    def get_expense_percentage(self):
+        allowed = self.owner.allowedexpense.max_expense
+        monthly = self.monthly_expenses
+        percentage = monthly / allowed * 100
+        return percentage
+
+    @property
+    def get_pending_expenses(self):
+        pending = self.owner.todoexpense_set.all()
+        total = pending.aggregate(Sum('amount'))
+        count = pending.count()
+        return {'count': count, 'pending': pending, 'total': total}
+
+
+class AllowedExpense(models.Model):
+    owner = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    max_expense = models.DecimalField(decimal_places=3, max_digits=15, null=True, blank=False,
+                                      validators=[MinValueValidator(Decimal('0.01'))])
+    created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.owner) + ' :(' + str(self.max_expense) + ')'
 
 
 class Expense(models.Model):
@@ -75,19 +104,19 @@ class Expense(models.Model):
 
 class ToDoExpense(models.Model):
     PRIORITY_TYPE = [
-        (1, 'Hign'),
-        (2, 'Moderate'),
-        (3, 'Low'),
+        ('danger', 'High'),
+        ('warning', 'Moderate'),
+        ('info', 'Low'),
     ]
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False, blank=False)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     amount = models.DecimalField(decimal_places=3, max_digits=15, null=False, blank=False)
-    date_expected = models.DateTimeField(null=True, blank=True)
-    priority = models.PositiveSmallIntegerField(choices=PRIORITY_TYPE, blank=False, null=False, default=3)
+    date_expected = models.DateField(default=now, null=False, blank=False)
+    priority = models.CharField(max_length=10,choices=PRIORITY_TYPE, blank=False, null=False, default='warning')
     completed = models.BooleanField(blank=False, null=False, default=False)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
-        return self.owner.username + '(-' + str(self.amount) + ') On ' + str(self.date_expected.date())
+        return self.owner.username + '(-' + str(self.amount) + ') On ' + str(self.date_expected)

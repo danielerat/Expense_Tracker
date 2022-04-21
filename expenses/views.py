@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView
 from .models import Expense
 
+
 @login_required(login_url='login')
 def home(request):
     profile = request.user.profile
