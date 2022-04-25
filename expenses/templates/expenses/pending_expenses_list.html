@@ -3,7 +3,21 @@
 {% load static %}
 
 {% block content %}
-       <div class="row">
+    <div class="card-body">
+    <form>
+        {% for field in form %}
+            {% if field %}
+                no date
+            {% else %}
+                <div class="form-group">
+                    <label for="">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </form>
+    <div class="card-body">
+    <div class="row">
         <div class="col-lg-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
@@ -25,7 +39,7 @@
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td class=" w-50"><span class="lead">{{ expense.title }}</span>
-                                <p class="small">:{{ expense.description }}</p>
+                                    <p class="small">:{{ expense.description }}</p>
                                 </td>
                                 <td><span class="badge badge-{{ expense.priority }}"><i
                                         class="fas fa-flag fa-lg"></i></span>
@@ -33,11 +47,13 @@
                                             class="fas  fa-minus-circle fa-sm"></i>{{ expense.amount|floatformat:0|intcomma }} Frw</span>
                                     </br><span class="small">By:{{ expense.date_expected|date:"M-d" }}</span>
                                 </td>
-                                <td class="text-truncate" >
-                                    <a href="#" class="btn bg-success btn-sm text-white"><i class="fas fa-check"></i></a>
+                                <td class="text-truncate">
+                                    <a href="#" class="btn bg-success btn-sm text-white"><i
+                                            class="fas fa-check"></i></a>
                                     <a href="#" class="btn bg-gradient-info btn-sm text-white"><i
                                             class="fas fa-info-circle"></i></a>
-                                    <a href="#" class="btn bg-gradient-danger btn-sm text-white"><i class="fas fa-trash"></i></a>
+                                    <a href="#" class="btn bg-gradient-danger btn-sm text-white"><i
+                                            class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
