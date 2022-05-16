@@ -12,9 +12,9 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Wallet Ballance
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw {{ wallet.balance|floatformat:0|intcomma }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw {{ profile.wallet.balance|floatformat:0|intcomma }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> Frw {{ last_transaction.amount|floatformat:0|intcomma }}</span>
+                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> Frw {{ last_transaction|floatformat:0|intcomma }}</span>
                                 <br><span>Latest Transaction </span>
                             </div>
                         </div>
@@ -32,14 +32,14 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Monthly Expanses</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw {{ wallet.monthly_expenses|intcomma}}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw {{ profile.monthly_expense}}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
 
-                                {% if user.profile.allowedexpense %}
+                                {% if profile.allowedexpense %}
 
                                 <span class="text-danger mr-2"><i class="fas fa-hand-holding-usd"></i>
-                                                    {{ wallet.get_expense_percentage|floatformat:2   }} %</span>
-                                <span>of Rwf {{ user.profile.allowedexpense.max_expense|floatformat:0|intcomma }}</span>
+                                                    {{ profile.allowed_expense.percentage|floatformat:2   }} %</span>
+                                <span>of Rwf {{ profile.allowed_expense.allowed|floatformat:0|intcomma }}</span>
                                     {% else %}
                                      <span>Please Add your monthly allowed Expense</span>
                         {% endif %}
@@ -59,7 +59,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Total Expense</div>
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Frw {{ wallet.get_all_expenses|intcomma }}</div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Frw {{ profile.get_all_expenses|intcomma }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
                                                     20.4% </span>
@@ -82,10 +82,10 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Expenses
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{wallet.get_pending_expenses.count}} Expense{{ wallet.get_pending_expenses.count|pluralize }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{profile.get_pending_expenses.count}} Expense{{ wallet.get_pending_expenses.count|pluralize }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-danger mr-2"><i class="fas fa-minus-circle"></i>
-                                                    Frw {{wallet.get_pending_expenses.total.amount__sum|intcomma }}</span>
+                                                    Frw {{profile.get_pending_expenses.total.amount__sum|intcomma }}</span>
                                 <span>total Expenses</span>
                             </div>
                         </div>

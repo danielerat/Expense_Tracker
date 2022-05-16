@@ -33,8 +33,8 @@ class Profile(models.Model):
 
     @property
     def allowed_expense(self):
-        allowed = self.allowed_expense.max_expense
-        monthly = self.monthly_expenses
+        allowed = self.allowedexpense.max_expense
+        monthly = self.monthly_expense
         percentage = monthly / allowed * 100
         return {
             'allowed': allowed,
@@ -47,13 +47,6 @@ class Profile(models.Model):
 
         return expenses['amount__sum']
 
-    # @property
-    # def get_expense_percentage(self):
-    #     allowed = self.owner.allowedexpense.max_expense
-    #     monthly = self.monthly_expenses
-    #     percentage = monthly / allowed * 100
-    #     return percentage
-    #
     @property
     def get_pending_expenses(self):
         pending = self.todoexpense_set.all()

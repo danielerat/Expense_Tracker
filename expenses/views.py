@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.generic import DetailView
-from .models import Expense, Wallet, Profile
+from .models import Expense, Wallet, Profile, TopUpTransaction
 from .forms import ToDoExpenseForm
 
 
@@ -19,7 +19,7 @@ def home(request):
     page_name = 'Dashboard'
     profile = request.user.profile
     # wallet = profile.wallet
-    last_transaction = {}
+    last_transaction = profile.topuptransaction_set.last().amount
     context = {'profile': profile, 'page_name': page_name, 'last_transaction': last_transaction}
     return render(request, 'expenses/index.html', context)
 
