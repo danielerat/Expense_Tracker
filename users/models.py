@@ -1,10 +1,11 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Sum
+
+from django.utils.timezone import now
 
 
-# Create your models here.
-# Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=200, blank=True, null=True)
@@ -17,3 +18,45 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.username
+
+    # @property
+    # def get_latest_topup(self):
+    #     transaction = TopUpTransaction.obje
+    #     return
+    @property
+    def monthly_expense(self):
+        month = now().month
+        expenses = self.expense_set.all()
+        monthly = expenses.filter(date__month=month).aggregate(Sum('amount'))
+
+        return monthly['amount__sum']
+
+    @property
+    def allowed_expense(self):
+        allowed = self.allowed_expense.max_expense
+        monthly = self.monthly_expenses
+        percentage = monthly / allowed * 100
+        return {
+            'allowed': allowed,
+            'percentage': percentage,
+        }
+
+    @property
+    def get_all_expenses(self):
+        expenses = self.expense_set.all().aggregate(Sum('amount'))
+
+        return expenses['amount__sum']
+
+    # @property
+    # def get_expense_percentage(self):
+    #     allowed = self.owner.allowedexpense.max_expense
+    #     monthly = self.monthly_expenses
+    #     percentage = monthly / allowed * 100
+    #     return percentage
+    #
+    @property
+    def get_pending_expenses(self):
+        pending = self.todoexpense_set.all()
+        total = pending.aggregate(Sum('amount'))
+        count = pending.count()
+        return {'count': count, 'pending': pending, 'total': total}

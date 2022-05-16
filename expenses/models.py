@@ -1,4 +1,3 @@
-import datetime
 import uuid
 from decimal import Decimal
 
@@ -28,41 +27,6 @@ class Wallet(models.Model):
 
     def __str__(self):
         return self.owner.username
-
-    # @property
-    # def get_latest_topup(self):
-    #     transaction = TopUpTransaction.obje
-    #     return
-    @property
-    def monthly_expenses(self):
-        month = now().month
-        expenses = self.owner.expense_set.filter(date__month=month).aggregate(Sum('amount'))
-        return expenses['amount__sum']
-
-    @property
-    def get_allowed_Expense(self):
-        expenses = self.owner.expense_set.all().aggregate(Sum('amount'))
-        return expenses['amount__sum'] @ property
-
-    @property
-    def get_all_expenses(self):
-        month = now().month
-        expenses = self.owner.expense_set.all().aggregate(Sum('amount'))
-        return expenses['amount__sum']
-
-    @property
-    def get_expense_percentage(self):
-        allowed = self.owner.allowedexpense.max_expense
-        monthly = self.monthly_expenses
-        percentage = monthly / allowed * 100
-        return percentage
-
-    @property
-    def get_pending_expenses(self):
-        pending = self.owner.todoexpense_set.all()
-        total = pending.aggregate(Sum('amount'))
-        count = pending.count()
-        return {'count': count, 'pending': pending, 'total': total}
 
 
 class AllowedExpense(models.Model):
@@ -113,7 +77,7 @@ class ToDoExpense(models.Model):
     description = models.TextField(blank=True, null=True)
     amount = models.DecimalField(decimal_places=3, max_digits=15, null=False, blank=False)
     date_expected = models.DateField(default=now, null=False, blank=False)
-    priority = models.CharField(max_length=10,choices=PRIORITY_TYPE, blank=False, null=False, default='warning')
+    priority = models.CharField(max_length=10, choices=PRIORITY_TYPE, blank=False, null=False, default='warning')
     completed = models.BooleanField(blank=False, null=False, default=False)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
