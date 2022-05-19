@@ -20,7 +20,18 @@ def home(request):
     profile = request.user.profile
     # wallet = profile.wallet
     last_transaction = profile.topuptransaction_set.last().amount
-    context = {'profile': profile, 'page_name': page_name, 'last_transaction': last_transaction}
+
+    # Get All Expenses and their Total
+    expenses = profile.get_all_expenses
+
+    # Get Allowed Expenses
+    allowed_expense = profile.allowed_expense
+
+    # Getting pending All pending expenses, their count and total
+    pending = profile.get_pending_expenses
+
+    context = {'profile': profile, 'page_name': page_name, 'last_transaction': last_transaction,
+               'pending': pending, 'allowed_expense': allowed_expense, 'expenses': expenses}
     return render(request, 'expenses/index.html', context)
 
 

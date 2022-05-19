@@ -43,9 +43,9 @@ class Profile(models.Model):
 
     @property
     def get_all_expenses(self):
-        expenses = self.expense_set.all().aggregate(Sum('amount'))
-
-        return expenses['amount__sum']
+        expenses = self.expense_set.all()
+        total = expenses.aggregate(Sum('amount'))
+        return {'total': total['amount__sum'], 'expenses': expenses}
 
     @property
     def get_pending_expenses(self):

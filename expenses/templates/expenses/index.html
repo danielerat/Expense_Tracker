@@ -12,9 +12,11 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Wallet Ballance
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw {{ profile.wallet.balance|floatformat:0|intcomma }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                Frw {{ profile.wallet.balance|floatformat:0|intcomma }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> Frw {{ last_transaction|floatformat:0|intcomma }}</span>
+                                <span class="text-success mr-2"><i
+                                        class="fa fa-arrow-up"></i> Frw {{ last_transaction|floatformat:0|intcomma }}</span>
                                 <br><span>Latest Transaction </span>
                             </div>
                         </div>
@@ -32,17 +34,17 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Monthly Expanses</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw {{ profile.monthly_expense}}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Frw {{ profile.monthly_expense }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
 
-                                {% if profile.allowedexpense %}
+                                {% if allowed_expense %}
 
-                                <span class="text-danger mr-2"><i class="fas fa-hand-holding-usd"></i>
-                                                    {{ profile.allowed_expense.percentage|floatformat:2   }} %</span>
-                                <span>of Rwf {{ profile.allowed_expense.allowed|floatformat:0|intcomma }}</span>
-                                    {% else %}
-                                     <span>Please Add your monthly allowed Expense</span>
-                        {% endif %}
+                                    <span class="text-danger mr-2"><i class="fas fa-hand-holding-usd"></i>
+                                                    {{ allowed_expense.percentage|floatformat:2 }} %</span>
+                                    <span>of Rwf {{ allowed_expense.allowed|floatformat:0|intcomma }}</span>
+                                {% else %}
+                                    <span>Please Add your monthly allowed Expense</span>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-auto">
@@ -59,7 +61,8 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Total Expense</div>
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Frw {{ profile.get_all_expenses|intcomma }}</div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                Frw {{ expenses.total|intcomma }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
                                                     20.4% </span>
@@ -67,7 +70,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-{#                            <i class="fa-solid fa-2x  fa-money-check-dollar"></i>#}
+                            {#                            <i class="fa-solid fa-2x  fa-money-check-dollar"></i>#}
                             <i class="fas fa-money-bill fa-2x"></i>
                         </div>
                     </div>
@@ -82,15 +85,16 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Expenses
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{profile.get_pending_expenses.count}} Expense{{ wallet.get_pending_expenses.count|pluralize }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending.count }}
+                                Expense{{ pending.count|pluralize }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-danger mr-2"><i class="fas fa-minus-circle"></i>
-                                                    Frw {{profile.get_pending_expenses.total.amount__sum|intcomma }}</span>
+                                                    Frw {{ pending.total.amount__sum|intcomma }}</span>
                                 <span>total Expenses</span>
                             </div>
                         </div>
                         <div class="col-auto">
-                                <i class="fas fa-2x fa-comments-dollar"></i>
+                            <i class="fas fa-2x fa-comments-dollar"></i>
                         </div>
                     </div>
                 </div>
@@ -111,51 +115,33 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                         <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Item</th>
-                            <th>Status</th>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Amount</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><a href="#">RA0449</a></td>
-                            <td>Udin Wayang</td>
-                            <td>Nasi Padang</td>
-                            <td><span class="badge badge-success">Delivered</span></td>
-                            <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">RA5324</a></td>
-                            <td>Jaenab Bajigur</td>
-                            <td>Gundam 90' Edition</td>
-                            <td><span class="badge badge-warning">Shipping</span></td>
-                            <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">RA8568</a></td>
-                            <td>Rivat Mahesa</td>
-                            <td>Oblong T-Shirt</td>
-                            <td><span class="badge badge-danger">Pending</span></td>
-                            <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">RA1453</a></td>
-                            <td>Indri Junanda</td>
-                            <td>Hat Rounded</td>
-                            <td><span class="badge badge-info">Processing</span></td>
-                            <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">RA1998</a></td>
-                            <td>Udin Cilok</td>
-                            <td>Baby Powder</td>
-                            <td><span class="badge badge-success">Delivered</span></td>
-                            <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                        </tr>
+                        {% for expense in expenses.expenses|slice:":7" %}
+                            <tr>
+                                <td><a href="#">{{ forloop.counter }}</a></td>
+                                <td class="text-truncate">{{ expense.title}} <br><span class="badge badge-info">{{ expense.expense_type }}</span><span class="badge badge-warning">Frw {{ expense.amount }}</span></td>
+                                <td><span class="text-primary">Frw {{ expense.date }}</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-success"><i class="fas fa-check-circle"></i></a>
+                                    <a href="#" class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                                    <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
                         </tbody>
+
                     </table>
+                  <div class="card-footer text-center">
+                        <a class="m-0 small text-primary card-link" href="#">View More <i
+                                class="fas fa-chevron-right"></i></a>
+                    </div>
                 </div>
                 <div class="card-footer"></div>
             </div>
@@ -165,20 +151,21 @@
             <div class="card">
                 <div
                         class="card-header py-4 bg-primary d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-light">Expenses To Make</h6>
+                    <h6 class="m-0 font-weight-bold text-light">You have ({{ pending.count }}) Expenses To Make</h6>
                 </div>
                 <div>
-                    {% for pending in wallet.get_pending_expenses.pending %}
-                    <div class="customer-message align-items-center">
-                        <a class="font-weight-bold" href="#">
-                            <div class="text-truncate message-title">{{ pending.title }}
-                            </div>
-                            <div class="small text-gray-500 message-time font-weight-bold">
-                                To Do On: {{ pending.date_expected }}
-                                <span class="badge badge-{{ pending.priority }}"><i class="fas fa-flag"></i> </span>
-                            </div>
-                        </a>
-                    </div>
+                    {% for pend in pending.pending|slice:":7" %}
+
+                        <div class="customer-message align-items-center">
+                            <a class="font-weight-bold" href="#">
+                                <div class="text-truncate message-title">{{ pend.title }}
+                                </div>
+                                <div class="small text-gray-500 message-time font-weight-bold">
+                                    To Do On: {{ pend.date_expected }}
+                                    <span class="badge badge-{{ pend.priority }}"><i class="fas fa-flag"></i> </span>
+                                </div>
+                            </a>
+                        </div>
                     {% endfor %}
 
                     <div class="card-footer text-center">
