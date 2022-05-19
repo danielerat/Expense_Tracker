@@ -3,19 +3,28 @@
 {% load static %}
 
 {% block content %}
-    <div class="card-body">
-    <form>
-        {% for field in form %}
-            {% if field %}
-                no date
-            {% else %}
-                <div class="form-group">
-                    <label for="">{{ field.label }}</label>
-                    {{ field }}
-                </div>
-            {% endif %}
-        {% endfor %}
-    </form>
+    <div class="card mb-4">
+        <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Add New Pending Expense</h6>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.label == 'Date expected' %}
+
+                    {% else %}
+                        <div class="form-group">
+                            <label for="">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
     <div class="card-body">
     <div class="row">
         <div class="col-lg-12 mb-4">
