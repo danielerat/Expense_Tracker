@@ -58,21 +58,21 @@ def pending_expenses(request):
 
 
 def expenses(request):
-    form =""
+    form = ExpenseForm()
     page_name = 'Expenses'
     if request.method == 'POST':
-        pending = ToDoExpenseForm(request.POST)
-        if pending.is_valid():
-            p = pending.save(commit=False)
-            p.owner = request.user.profile
-            p.save()
+        expense = ExpenseForm(request.POST)
+        if expense.is_valid():
+            e = expense.save(commit=False)
+            e.owner = request.user.profile
+            e.save()
             messages.success(request,
-                             "Hey %s, Your Pending Expense is successfully saved" % request.user.profile.first_name)
-            return redirect("expenses:pending_expense")
+                             "Hey %s, Your Expense is successfully saved" % request.user.profile.first_name)
+            return redirect("expenses:expenses")
         else:
-            print(pending.errors)
+            print(expense.errors)
             note = "Error While saving the pending expense"
-            form = pending
+            form = expense
 
     profile = request.user.profile
     expenses = profile.expense_set.all().order_by("-created")

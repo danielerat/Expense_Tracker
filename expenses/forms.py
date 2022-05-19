@@ -9,7 +9,7 @@ class ExpenseForm(ModelForm):
             'description': Textarea(attrs={'rows': 2}),
         }
     def __init__(self, *args, **kwargs):
-        super(ToDoExpenseForm, self).__init__(*args, **kwargs)
+        super(ExpenseForm, self).__init__(*args, **kwargs)
         # The fast way
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
