@@ -3,20 +3,36 @@
 {% load static %}
 
 {% block content %}
-    <div class="card mb-4">
-        <div
-                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <div class="card mb-4 w-50 m-auto">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Add New Pending Expense</h6>
+            <span class="text-success "><i class="fas fa-plus-circle"></i></span>
+
         </div>
         <div class="card-body">
             <form method="POST">
                 {% csrf_token %}
                 {% for field in form %}
                     {% if field.label == 'Date expected' %}
-
+                        <div class="form-group" id="simple-date1">
+                            <label for="simpleDataInput">Simple Data Input</label>
+                            <div class="input-group date">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                </div>
+                                <input type="text" name="date_expected" class="form-control" value="01/01/2022"
+                                       id='id_date_expected simpleDataInput' required="">
+                            </div>
+                        </div>
                     {% else %}
                         <div class="form-group">
+
                             <label for="">{{ field.label }}</label>
+                            {#Display all errors#}
+                            {% for error in field.errors %}
+                                    <span class="float-right badge badge-danger">{{ error|escape }}</span>
+                            {% endfor %}
+
                             {{ field }}
                         </div>
                     {% endif %}

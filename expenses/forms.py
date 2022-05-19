@@ -1,14 +1,16 @@
-from django.forms import ModelForm
+from django.forms import ModelForm,Textarea
 from .models import ToDoExpense
+
+
 
 
 class ToDoExpenseForm(ModelForm):
     class Meta:
         model = ToDoExpense
         fields = ['title', 'description', 'amount', 'date_expected', 'priority']
-        # widgets = {
-        #     'date_expected': ModelForm.RadioSelect
-        # }
+        widgets = {
+            'description': Textarea(attrs={'rows': 2}),
+        }
     def __init__(self, *args, **kwargs):
         super(ToDoExpenseForm, self).__init__(*args, **kwargs)
         # The fast way

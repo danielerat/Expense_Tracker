@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.views.generic import DetailView
 from .models import Expense, Wallet, Profile, TopUpTransaction
 from .forms import ToDoExpenseForm
@@ -38,7 +39,39 @@ def home(request):
 def pending_expenses(request):
     form = ToDoExpenseForm()
     page_name = 'Pending Expenses'
+    if request.method == 'POST':
+        pending = ToDoExpenseForm(request.POST)
+        if pending.is_valid():
+            p = pending.save(commit=False)
+            p.owner = request.user.profile
+            p.save()
+            messages.success(request,"Hey %s, Your Pending Expense is successfully saved" % request.user.profile.first_name)
+            return redirect("expenses:pending_expense")
+        else:
+            form = pending
+
     profile = request.user.profile
-    expenses = profile.todoexpense_set.all()
+    expenses = profile.todoexpense_set.all().order_by("-created")
+    context = {'page_name': page_name, 'pending_expenses': expenses, 'form': form}
+    return render(request, 'expenses/pending_expenses_list.html', context)
+
+
+def expenses(request):
+    form = ToDoExpenseForm()
+    page_name = 'Expenses'
+    if request.method == 'POST':
+        pending = ToDoExpenseForm(request.POST)
+        if pending.is_valid():
+            p = pending.save(commit=False)
+            p.owner = request.user.profile
+            p.save()
+            messages.success(request,"Hey %s, Your Pending Expense is successfully saved" % request.user.profile.first_name)
+            return redirect("expenses:pending_expense")
+        else:
+            print(pending.errors)
+            note = "Error While saving the pending expense"
+            form = pending
+    profile = request.user.profile
+    expenses = profile.todoexpense_set.all().order_by("-created")
     context = {'page_name': page_name, 'pending_expenses': expenses, 'form': form}
     return render(request, 'expenses/pending_expenses_list.html', context)
