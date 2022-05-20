@@ -1,8 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import DetailView
-from .models import Expense, Wallet, Profile, TopUpTransaction
 from .forms import ToDoExpenseForm, ExpenseForm
 
 

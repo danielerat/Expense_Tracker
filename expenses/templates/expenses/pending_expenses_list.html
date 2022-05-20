@@ -30,7 +30,7 @@
                             <label for="">{{ field.label }}</label>
                             {#Display all errors#}
                             {% for error in field.errors %}
-                                    <span class="float-right badge badge-danger">{{ error|escape }}</span>
+                                <span class="float-right badge badge-danger">{{ error|escape }}</span>
                             {% endfor %}
 
                             {{ field }}
@@ -42,53 +42,53 @@
         </div>
     </div>
     <div class="card-body">
-    <div class="row">
-        <div class="col-lg-12 mb-4">
-            <!-- Simple Tables -->
-            <div class="card">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">List of Pending Expenses</h6>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Priority</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for expense in pending_expenses %}
+        <div class="row">
+            <div class="col-lg-12 mb-4">
+                <!-- Simple Tables -->
+                <div class="card">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">List of Pending Expenses</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td class=" w-50"><span class="lead">{{ expense.title }}</span>
-                                    <p class="small">:{{ expense.description }}</p>
-                                </td>
-                                <td><span class="badge badge-{{ expense.priority }}"><i
-                                        class="fas fa-flag fa-lg"></i></span>
-                                    <span class="text-white badge bg-gradient-info"> <i
-                                            class="fas  fa-minus-circle fa-sm"></i>{{ expense.amount|floatformat:0|intcomma }} Frw</span>
-                                    </br><span class="small">By:{{ expense.date_expected|date:"M-d" }}</span>
-                                </td>
-                                <td class="text-truncate">
-                                    <a href="#" class="btn bg-success btn-sm text-white"><i
-                                            class="fas fa-check"></i></a>
-                                    <a href="#" class="btn bg-gradient-info btn-sm text-white"><i
-                                            class="fas fa-info-circle"></i></a>
-                                    <a href="#" class="btn bg-gradient-danger btn-sm text-white"><i
-                                            class="fas fa-trash"></i></a>
-                                </td>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Priority</th>
+                                <th>Action</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% for expense in pending_expenses %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td class=" w-50"><span class="lead">{{ expense.title }}</span>
+                                        <p class="small">:{{ expense.description }}</p>
+                                    </td>
+                                    <td><span class="badge badge-{{ expense.priority }}"><i
+                                            class="fas fa-flag fa-lg"></i></span>
+                                        <span class="text-white badge bg-gradient-info"> <i
+                                                class="fas  fa-minus-circle fa-sm"></i>{{ expense.amount|floatformat:0|intcomma }} Frw</span>
+                                        <br><span class="small">By:{{ expense.date_expected|date:"M-d" }}</span>
+                                    </td>
+                                    <td class="text-truncate">
+                                        <a href="#" class="btn bg-success btn-sm text-white"><i
+                                                class="fas fa-check"></i></a>
+                                        <a href="#" class="btn bg-gradient-info btn-sm text-white"><i
+                                                class="fas fa-info-circle"></i></a>
+                                        <a href="#" class="btn bg-gradient-danger btn-sm text-white"><i
+                                                class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer"></div>
                 </div>
-                <div class="card-footer"></div>
             </div>
         </div>
-
 
     </div>
 

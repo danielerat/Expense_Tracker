@@ -84,3 +84,14 @@ class ToDoExpense(models.Model):
 
     def __str__(self):
         return self.owner.username + '(-' + str(self.amount) + ') On ' + str(self.date_expected)
+
+
+class Debt(models.Model):
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False, blank=False)
+    title = models.CharField(max_length=255)
+    amount = models.DecimalField(decimal_places=3, max_digits=15, null=False, blank=False)
+    date_expected = models.DateField(default=now, null=False, blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    def __str__(self):
+        return self.owner.username + '(' + str(self.amount) + ') On ' + str(self.date_expected)
