@@ -1,5 +1,6 @@
-from django.forms import ModelForm,Textarea
-from .models import ToDoExpense,Expense
+from django.forms import ModelForm, Textarea
+from .models import ToDoExpense, Expense, Debt
+
 
 class ExpenseForm(ModelForm):
     class Meta:
@@ -8,12 +9,12 @@ class ExpenseForm(ModelForm):
         widgets = {
             'description': Textarea(attrs={'rows': 2}),
         }
+
     def __init__(self, *args, **kwargs):
         super(ExpenseForm, self).__init__(*args, **kwargs)
         # The fast way
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
-
 
 
 class ToDoExpenseForm(ModelForm):
@@ -23,8 +24,21 @@ class ToDoExpenseForm(ModelForm):
         widgets = {
             'description': Textarea(attrs={'rows': 2}),
         }
+
     def __init__(self, *args, **kwargs):
         super(ToDoExpenseForm, self).__init__(*args, **kwargs)
+        # The fast way
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+class TopUpForm(ModelForm):
+    class Meta:
+        model = Debt
+        fields = ['title', 'amount', 'date_expected']
+
+    def __init__(self, *args, **kwargs):
+        super(TopUpForm, self).__init__(*args, **kwargs)
         # The fast way
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})

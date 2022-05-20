@@ -5,6 +5,7 @@ app_name = 'expenses'
 urlpatterns = [
     path('', views.home, name='home'),
     path('expenses/', views.expenses, name='expenses'),
+    path('top_up_transactions/', views.top_up, name='top_up'),
     # path('home/', views.home, name='home'),
     path('pending_expense/', views.pending_expenses, name='pending_expense'),
 ]

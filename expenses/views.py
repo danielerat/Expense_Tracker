@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import ToDoExpenseForm, ExpenseForm
+from .forms import ToDoExpenseForm, ExpenseForm, TopUpForm
 
 
 def tester(request):
@@ -76,3 +76,27 @@ def expenses(request):
     expenses = profile.expense_set.all().order_by("-created")
     context = {'page_name': page_name, 'expenses': expenses, 'form': form}
     return render(request, 'expenses/expenses.html', context)
+
+
+def top_up(request):
+    form = TopUpForm()
+    page_name = 'Top Up Transactions'
+
+    if request.method == 'POST':
+        t_transaction = TopUpForm(request.POST)
+        if t_transaction.is_valid():
+            t = t_transaction.save(commit=False)
+            t.owner = request.user.profile
+            t.save()
+            messages.success(request,
+                             "Hey %s, Your Expense is successfully saved" % request.user.profile.first_name)
+            return redirect("expenses:top_up")
+        else:
+            print(t_transaction.errors)
+            note = "Error While saving the pending expense"
+            form = t_transaction
+
+    profile = request.user.profile
+    transactions = profile.debt_set.all().order_by("-date_expected")
+    context = {'page_name': page_name, 'transactions': transactions, 'form': form}
+    return render(request, 'expenses/topup.html', context)

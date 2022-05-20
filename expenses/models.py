@@ -4,7 +4,7 @@ from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.timezone import now
-from django.db.models import Sum
+from datetime import date
 
 from users.models import Profile
 
@@ -93,5 +93,13 @@ class Debt(models.Model):
     date_expected = models.DateField(default=now, null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+
     def __str__(self):
         return self.owner.username + '(' + str(self.amount) + ') On ' + str(self.date_expected)
+
+    @property
+    def overdue(self):
+        today = date.today()
+        if self.date_expected <= today:
+            return True
+        return False
