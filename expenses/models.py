@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.timezone import now
+from django.db.models import Sum
 from datetime import date
 
 from users.models import Profile
@@ -19,7 +20,6 @@ class TopUpTransaction(models.Model):
         return self.owner.username + '(+' + str(self.amount) + ')'
 
 
-# Create your models here.
 class Wallet(models.Model):
     owner = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True, blank=True)
     balance = models.DecimalField(decimal_places=3, max_digits=15, null=False, blank=False, default=0)

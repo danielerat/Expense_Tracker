@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea
-from .models import ToDoExpense, Expense, Debt
+from .models import ToDoExpense, Expense, Debt,TopUpTransaction
 
 
 class ExpenseForm(ModelForm):
@@ -33,6 +33,12 @@ class ToDoExpenseForm(ModelForm):
 
 
 class TopUpForm(ModelForm):
+    class Meta:
+        model = TopUpTransaction
+        fields = ['amount']
+
+
+class DebtForm(ModelForm):
     class Meta:
         model = Debt
         fields = ['title', 'amount', 'date_expected']

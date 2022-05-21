@@ -19,10 +19,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.username
 
-    # @property
-    # def get_latest_topup(self):
-    #     transaction = TopUpTransaction.obje
-    #     return
+    @property
+    def wallet_balance(self):
+        balance = self.wallet.balance
+        return balance
+
     @property
     def monthly_expense(self):
         month = now().month
@@ -53,3 +54,20 @@ class Profile(models.Model):
         total = pending.aggregate(Sum('amount'))
         count = pending.count()
         return {'count': count, 'pending': pending, 'total': total}
+
+    @property
+    def all_top_ups(self):
+        month = now().month
+        transactions = self.topuptransaction_set.all()
+        monthly = transactions.filter(created__month=month)
+        monthly_count = monthly.count()
+        monthly_sum = monthly.aggregate(Sum('amount'))
+        sum = transactions.aggregate(Sum('amount'))
+        count = transactions.count()
+        return {
+            "sum": sum['amount__sum'],
+            "count": count,
+            "monthly_sum": monthly_sum['amount__sum'],
+            "monthly_count": monthly_count,
+            'all': transactions,
+        }

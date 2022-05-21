@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+    <div class="card mb-4 w-50 m-auto">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Add Money To your Wallet</h6>
+            <span class="text-success "><i class="fas fa-plus-circle"></i></span>
+
+        </div>
+
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.label == 'Date expected' %}
+                        <div class="form-group" id="simple-date1">
+                            <label for="simpleDataInput">Simple Data Input</label>
+                            <div class="input-group date">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                </div>
+                                <input type="text" name="date_expected" class="form-control" value="2022-05-01"
+                                       id='id_date_expected simpleDataInput' required="">
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="form-group">
+
+                            <label for="">{{ field.label }}</label>
+                            {#Display all errors#}
+                            {% for error in field.errors %}
+                                <span class="float-right badge badge-danger">{{ error|escape }}</span>
+                            {% endfor %}
+
+                            {{ field }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+
+
+
+    </div>
+    <div class="card-body">
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <!-- Simple Tables -->
+            <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">All Top Up Transactions</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Type/Date/Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if transactions %}
+                            {% for t in transactions %}
+                                {% if t.overdue %}
+                                    <tr class="bg-warning text-white font-weight-bold">
+                                        {% else %}
+                                    <tr>
+                                {% endif %}
+
+                            <td><a href="#">{{ forloop.counter }}</a></td>
+                            <td class="text-truncate">{{ t.title }} <br>
+                            </td>
+                            <td>
+                                        <span class="badge badge-danger"><i
+                                                class="fas fa-minus-circle"></i>Frw {{ t.amount }}</span>
+                                <span class="badge badge-dark text-warning">By: {{ t.date_expected }}</span>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-success"><i
+                                        class="fas fa-check-circle"></i></a>
+                                <a href="#" class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                            </td>
+                            </tr>
+
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock content %}
+

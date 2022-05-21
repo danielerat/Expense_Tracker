@@ -21,7 +21,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                 </div>
-                                <input type="text" name="date_expected" class="form-control" value="01/01/2022"
+                                <input type="text" name="date_expected" class="form-control" value="2022-05-01"
                                        id='id_date_expected simpleDataInput' required="">
                             </div>
                         </div>
@@ -42,10 +42,59 @@
             </form>
         </div>
 
+
     </div>
     <div class="card-body">
     <div class="row">
-        <div class="col-lg-12 mb-4">
+        <div class="col col-xl-3 col-md-6">
+            <!-- All Transactions  -->
+            <div class=" mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">All TopUps
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    Frw {{ transactions.sum|floatformat:0|intcomma }}</div>
+                                <div class="mt-2 mb-0 text-muted text-xs">
+                                <span class="text-danger mr-2">Total of ( {{ transactions.count }} )</span>
+                                    <span>Top Ups </span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-wallet  fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total of all earnings -->
+            <div class=" mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">Monthly TopUps
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    Frw {{ transactions.monthly_sum|floatformat:0|intcomma }}</div>
+                                <div class="mt-2 mb-0 text-muted text-xs">
+                                <span class="text-warning mr-2">Wallet: Frw {{ profile.wallet_balance|floatformat:0|intcomma }}</span>
+                                    <br><span class="text-danger">Month Limit : {{ profile.allowed_expense.percentage|floatformat:2 }} % </span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-money-bill fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-lg-8 mb-4">
             <!-- Simple Tables -->
             <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -56,38 +105,29 @@
                         <thead class="thead-light">
                         <tr>
                             <th>#</th>
-                            <th>Title</th>
-                            <th>Type/Date/Amount</th>
+                            <th>On</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% if transactions %}
-                            {% for t in transactions %}
-                                {% if t.overdue %}
-                                    <tr class="bg-warning text-white">
-                                        {% else %}
-                                    <tr>
-                                {% endif %}
+                        {% for t in transactions.all %}
+                            <tr>
 
-                            <td><a href="#">{{ forloop.counter }}</a></td>
-                            <td class="text-truncate">{{ t.title }} <br>
-                            </td>
-                            <td>
-                                        <span class="badge badge-danger"><i
-                                                class="fas fa-minus-circle"></i>Frw {{ t.amount }}</span>
-                                <span class="text-primary d-block">By: {{ t.date_expected }}</span>
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-success"><i
-                                        class="fas fa-check-circle"></i></a>
-                                <a href="#" class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                            </td>
+                                <td><a href="#">{{ forloop.counter }}</a></td>
+                                <td class="text-truncate">{{ t.created }} <br>
+                                    <span class="badge badge-success"><i
+                                            class="fas fa-plus-circle"></i> Frw {{ t.amount }}</span>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-success"><i
+                                            class="fas fa-check-circle"></i></a>
+                                    <a href="#" class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                                    <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                </td>
                             </tr>
 
-                            {% endfor %}
-                        {% endif %}
+                        {% endfor %}
+
                         </tbody>
                     </table>
                 </div>

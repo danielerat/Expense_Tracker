@@ -1,15 +1,18 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import ToDoExpenseForm, ExpenseForm, TopUpForm
+from .forms import ToDoExpenseForm, ExpenseForm, TopUpForm, DebtForm
+from .models import TopUpTransaction
 
 
-def tester(request):
+def test(request):
     page_name = 'Dashboard'
     # user_id = request.user.profile.id
     # profile = Profile.objects.select_related('wallet').get(id=user_id)
     profile = request.user.profile
-    context = {'profile': profile, }
+    transaction = profile.all_top_ups
+
+    context = {'transaction': transaction, }
     return render(request, 'expenses/tester.html', context)
 
 
@@ -89,14 +92,41 @@ def top_up(request):
             t.owner = request.user.profile
             t.save()
             messages.success(request,
-                             "Hey %s, Your Expense is successfully saved" % request.user.profile.first_name)
+                             "Hey %s, You successfully Added Money To your wallet" % request.user.profile.first_name)
             return redirect("expenses:top_up")
         else:
             print(t_transaction.errors)
+            print(request.POST)
             note = "Error While saving the pending expense"
             form = t_transaction
 
     profile = request.user.profile
-    transactions = profile.debt_set.all().order_by("-date_expected")
-    context = {'page_name': page_name, 'transactions': transactions, 'form': form}
+    transactions = profile.all_top_ups
+    context = {'page_name': page_name, 'profile': profile, 'transactions': transactions, 'form': form}
     return render(request, 'expenses/topup.html', context)
+
+
+def debts(request):
+    form = DebtForm()
+    page_name = 'Top Up Transactions'
+
+    if request.method == 'POST':
+        t_transaction = TopUpForm(request.POST)
+        if t_transaction.is_valid():
+            t = t_transaction.save(commit=False)
+            t.owner = request.user.profile
+            t.save()
+            messages.success(request,
+                             "Hey %s, You successfully Added Money To your wallet" % request.user.profile.first_name)
+            return redirect("expenses:top_up")
+        else:
+            print(t_transaction.errors)
+            print(request.POST)
+            note = "Error While saving the pending expense"
+            form = t_transaction
+
+    profile = request.user.profile
+    transactions = profile.debt_set.all().order_by('-created')
+
+    context = {'page_name': page_name, 'transactions': transactions, 'form': form}
+    return render(request, 'expenses/debt.html', context)
