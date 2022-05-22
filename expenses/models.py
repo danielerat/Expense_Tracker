@@ -91,6 +91,7 @@ class Debt(models.Model):
     title = models.CharField(max_length=255)
     amount = models.DecimalField(decimal_places=3, max_digits=15, null=False, blank=False)
     date_expected = models.DateField(default=now, null=False, blank=False)
+    paid = models.BooleanField(default=False, auto_created=True)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 

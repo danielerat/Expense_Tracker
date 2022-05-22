@@ -55,6 +55,7 @@ class Profile(models.Model):
         count = pending.count()
         return {'count': count, 'pending': pending, 'total': total}
 
+    # Dealing with Topups
     @property
     def all_top_ups(self):
         month = now().month
@@ -62,12 +63,37 @@ class Profile(models.Model):
         monthly = transactions.filter(created__month=month)
         monthly_count = monthly.count()
         monthly_sum = monthly.aggregate(Sum('amount'))
-        sum = transactions.aggregate(Sum('amount'))
+        all_sum = transactions.aggregate(Sum('amount'))
         count = transactions.count()
         return {
-            "sum": sum['amount__sum'],
+            "sum": all_sum['amount__sum'],
             "count": count,
             "monthly_sum": monthly_sum['amount__sum'],
             "monthly_count": monthly_count,
             'all': transactions,
+        }
+
+    # Dealing with Debts
+    @property
+    def all_debts(self):
+        month = now().month
+        day = now().day
+        transactions = self.debt_set.filter(paid=False)
+        overdue = transactions.filter(date_expected__day__lte=day)
+        overdue_count = overdue.count()
+        overdue_sum = overdue.aggregate(Sum('amount'))
+
+        monthly = transactions.filter(date_expected__month=month)
+        monthly_count = monthly.count()
+        monthly_sum = monthly.aggregate(Sum('amount'))
+        all_sum = transactions.aggregate(Sum('amount'))
+        count = transactions.count()
+        return {
+            "sum": all_sum['amount__sum'],
+            "count": count,
+            "monthly_sum": monthly_sum['amount__sum'],
+            "monthly_count": monthly_count,
+            'all': transactions,
+            'overdue_count': overdue_count,
+            'overdue_sum': overdue_sum['amount__sum'],
         }

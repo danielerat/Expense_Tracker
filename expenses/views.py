@@ -126,7 +126,7 @@ def debts(request):
             form = t_transaction
 
     profile = request.user.profile
-    debts = profile.debt_set.all().order_by('-created')
-
-    context = {'page_name': page_name, 'debts': debts, 'form': form}
+    debts = profile.debt_set.filter(paid=False).order_by('-created')
+    all_debts = profile.all_debts
+    context = {'page_name': page_name, 'all_debts': all_debts, 'debts': debts, 'profile': profile, 'form': form}
     return render(request, 'expenses/debt.html', context)

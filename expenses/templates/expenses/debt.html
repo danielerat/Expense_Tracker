@@ -43,12 +43,83 @@
         </div>
 
 
-
-
     </div>
     <div class="card-body">
     <div class="row">
-        <div class="col-lg-12 mb-4">
+
+        <div class="col-12 col-lg-3 col-md-8  mx-auto ">
+            <!-- All Transactions  -->
+            <div class=" mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">All Debts
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    Frw {{ all_debts.sum|floatformat:0|intcomma }}</div>
+                                <div class="mt-2 mb-0 text-muted text-xs">
+                                    <span class="text-danger mr-2">Total of ( {{ all_debts.count }} )</span>
+                                    <span>Debts </span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-wallet  fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Of all monthly Debts -->
+            <div class=" mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">Expected This Month
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    Frw {{ all_debts.monthly_sum|floatformat:0|intcomma }}</div>
+                                <div class="mt-2 mb-0 text-muted text-xs">
+                                    <span class="text-warning mr-2">From ( {{ all_debts.monthly_count }} ) Sources</span>
+                                    <br><span
+                                        class="text-danger">Expected Wallet: {{ all_debts.monthly_sum|add:profile.wallet_balance|floatformat:2|intcomma }}</span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-money-bill fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overdue Debts -->
+            <div class=" mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-uppercase mb-1">Overdue Debts
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                     {{ all_debts.overdue_count}} Debts </div>
+                                <div class="mt-2 mb-0 text-muted text-xs">
+                                    Total of  <span class="text-warning mr-2">Rwf {{ all_debts.overdue_sum|floatformat:2|intcomma }} </span>
+
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                               <i class="fas fa-donate fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-9 col-md-12 mb-4">
             <!-- Simple Tables -->
             <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -65,30 +136,30 @@
                         </tr>
                         </thead>
                         <tbody>
-                            {% for d in debts %}
-                                {% if d.overdue %}
-                                    <tr class="bg-warning text-white font-weight-bold">
-                                        {% else %}
-                                    <tr>
-                                {% endif %}
+                        {% for d in debts %}
+                            {% if d.overdue %}
+                                <tr class="bg-warning text-white font-weight-bold">
+                                    {% else %}
+                                <tr>
+                            {% endif %}
 
-                            <td><a href="#">{{ forloop.counter }}</a></td>
-                            <td class="text-truncate">{{ d.title }}
-                            </td>
-                            <td>
+                        <td><a href="#">{{ forloop.counter }}</a></td>
+                        <td class="text-truncate">{{ d.title|truncatechars:30 }}
+                        </td>
+                        <td>
                                         <span class="badge badge-danger"><i
                                                 class="fas fa-minus-circle"></i>Frw {{ d.amount }}</span>
-                                <span class="badge badge-dark text-warning">By: {{ d.date_expected }}</span>
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-success"><i
-                                        class="fas fa-check-circle"></i></a>
-                                <a href="#" class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                            </td>
-                            </tr>
+                            <br><span class="badge badge-dark text-warning">By: {{ d.date_expected }}</span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-success"><i
+                                    class="fas fa-check-circle"></i></a>
+                            <a href="#" class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                            <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                        </tr>
 
-                            {% endfor %}
+                        {% endfor %}
 
                         </tbody>
                     </table>
