@@ -108,7 +108,7 @@ def top_up(request):
 
 def debts(request):
     form = DebtForm()
-    page_name = 'Top Up Transactions'
+    page_name = 'Who owes you money?'
 
     if request.method == 'POST':
         t_transaction = TopUpForm(request.POST)
@@ -126,7 +126,7 @@ def debts(request):
             form = t_transaction
 
     profile = request.user.profile
-    transactions = profile.debt_set.all().order_by('-created')
+    debts = profile.debt_set.all().order_by('-created')
 
-    context = {'page_name': page_name, 'transactions': transactions, 'form': form}
+    context = {'page_name': page_name, 'debts': debts, 'form': form}
     return render(request, 'expenses/debt.html', context)

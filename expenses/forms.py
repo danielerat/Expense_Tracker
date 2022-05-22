@@ -44,7 +44,7 @@ class DebtForm(ModelForm):
         fields = ['title', 'amount', 'date_expected']
 
     def __init__(self, *args, **kwargs):
-        super(TopUpForm, self).__init__(*args, **kwargs)
+        super(DebtForm, self).__init__(*args, **kwargs)
         # The fast way
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})

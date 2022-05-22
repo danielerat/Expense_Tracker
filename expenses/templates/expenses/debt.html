@@ -65,21 +65,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% if transactions %}
-                            {% for t in transactions %}
-                                {% if t.overdue %}
+                            {% for d in debts %}
+                                {% if d.overdue %}
                                     <tr class="bg-warning text-white font-weight-bold">
                                         {% else %}
                                     <tr>
                                 {% endif %}
 
                             <td><a href="#">{{ forloop.counter }}</a></td>
-                            <td class="text-truncate">{{ t.title }} <br>
+                            <td class="text-truncate">{{ d.title }}
                             </td>
                             <td>
                                         <span class="badge badge-danger"><i
-                                                class="fas fa-minus-circle"></i>Frw {{ t.amount }}</span>
-                                <span class="badge badge-dark text-warning">By: {{ t.date_expected }}</span>
+                                                class="fas fa-minus-circle"></i>Frw {{ d.amount }}</span>
+                                <span class="badge badge-dark text-warning">By: {{ d.date_expected }}</span>
                             </td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-success"><i
@@ -90,7 +89,7 @@
                             </tr>
 
                             {% endfor %}
-                        {% endif %}
+
                         </tbody>
                     </table>
                 </div>
