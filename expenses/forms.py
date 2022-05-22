@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea
-from .models import ToDoExpense, Expense, Debt,TopUpTransaction
+from .models import ToDoExpense, Expense, Debt, TopUpTransaction
 
 
 class ExpenseForm(ModelForm):
@@ -36,6 +36,12 @@ class TopUpForm(ModelForm):
     class Meta:
         model = TopUpTransaction
         fields = ['amount']
+
+    def __init__(self, *args, **kwargs):
+        super(TopUpForm, self).__init__(*args, **kwargs)
+        # The fast way
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
 
 
 class DebtForm(ModelForm):

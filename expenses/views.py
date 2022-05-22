@@ -84,7 +84,6 @@ def expenses(request):
 def top_up(request):
     form = TopUpForm()
     page_name = 'Top Up Transactions'
-
     if request.method == 'POST':
         t_transaction = TopUpForm(request.POST)
         if t_transaction.is_valid():
@@ -108,7 +107,7 @@ def top_up(request):
 
 def debts(request):
     form = DebtForm()
-    page_name = 'Who owes you money?'
+    page_name = 'Who owe you money?'
 
     if request.method == 'POST':
         t_transaction = TopUpForm(request.POST)
@@ -118,7 +117,7 @@ def debts(request):
             t.save()
             messages.success(request,
                              "Hey %s, You successfully Added Money To your wallet" % request.user.profile.first_name)
-            return redirect("expenses:top_up")
+            return redirect("expenses:debts")
         else:
             print(t_transaction.errors)
             print(request.POST)
